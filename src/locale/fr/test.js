@@ -41,6 +41,14 @@ describe('fr locale', function () {
         var result = format(date, "qo 'trimestre', qqq, qqqq, qqqqq", {locale: locale})
         assert(result === '2ème trimestre, 2ème trim., 2ème trimestre, T2')
       })
+
+      context('edge cases - french locale', function () {
+        it('stand-alone quarter: 1st quarter', function () {
+          var date = new Date(1986, 1, 1)
+          var result = format(date, "qo 'trimestre', qqq, qqqq, qqqqq", {locale: locale})
+          assert(result === '1er trimestre, 1er trim., 1er trimestre, T1')
+        })
+      })
     })
 
     describe('month', function () {
@@ -52,6 +60,20 @@ describe('fr locale', function () {
       it('stand-alone month', function () {
         var result = format(date, "Lo 'mois', LLL, LLLL, LLLLL", {locale: locale})
         assert(result === '4ème mois, avr., avril, A')
+      })
+
+      context('edge cases - french locale', function () {
+        it('stand-alone month: 1st month', function () {
+          var date = new Date(1986, 0)
+          var result = format(date, "Lo 'mois', LLL, LLLL, LLLLL", {locale: locale})
+          assert(result === '1er mois, janv., janvier, J')
+        })
+
+        it('formatting month - fr locale specific: 1st', function () {
+          var date = new Date(1986, 1, 1)
+          var result = format(date, 'do MMMM', {locale: locale})
+          assert(result === '1er février')
+        })
       })
     })
 
@@ -67,6 +89,14 @@ describe('fr locale', function () {
         var result = format(date, "Io 'semaine ISO'", {locale: locale})
         assert(result === '14ème semaine ISO')
       })
+
+      context('edge cases - french locale', function () {
+        it('ordinal ISO week of year: 1st week', function () {
+          var date = new Date(1986, 0 /* Jan */, 1)
+          var result = format(date, "Io 'semaine ISO'", {locale: locale})
+          assert(result === '1ère semaine ISO')
+        })
+      })
     })
 
     describe('day', function () {
@@ -78,6 +108,14 @@ describe('fr locale', function () {
       it('ordinal day of year', function () {
         var result = format(date, "Do 'jour'", {locale: locale})
         assert(result === '95ème jour')
+      })
+
+      context('edge cases - french locale', function () {
+        it('ordinal day of year: 1st day', function () {
+          var date = new Date(1986, 0 /* Jan */, 1)
+          var result = format(date, "Do 'jour'", {locale: locale})
+          assert(result === '1er jour')
+        })
       })
     })
 
@@ -91,12 +129,26 @@ describe('fr locale', function () {
         var result = format(date, "eo 'jour de la semaine'", {locale: locale})
         assert(result === '6ème jour de la semaine')
       })
+
+      context('edge cases - french locale', function () {
+        it('ordinal day of week: 1st day of the week', function () {
+          var date = new Date(2018, 9 /* October */, 8)
+          var result = format(date, "eo 'jour de la semaine'", {locale: locale})
+          assert(result === '1er jour de la semaine')
+        })
+      })
     })
 
     describe('day period and hour', function () {
       it('ordinal hour', function () {
         var result = format(date, "ho 'heure'", {locale: locale})
         assert(result === '10ème heure')
+      })
+
+      it('ordinal hour - fr locale specific: 1st', function () {
+        var date = new Date(1986, 3 /* Apr */, 5, 1)
+        var result = format(date, "ho 'heure'", {locale: locale})
+        assert(result === '1ère heure')
       })
 
       it('AM, PM', function () {
@@ -122,6 +174,12 @@ describe('fr locale', function () {
       assert(result === '32ème minute')
     })
 
+    it('ordinal minute - fr locale specific: 1st ', function () {
+      var date = new Date(1986, 3 /* Apr */, 5, 10, 1)
+      var result = format(date, "mo 'minute'", {locale: locale})
+      assert(result === '1ère minute')
+    })
+
     it('ordinal second', function () {
       var result = format(date, "so 'seconde'", {locale: locale})
       assert(result === '0 seconde')
@@ -141,6 +199,11 @@ describe('fr locale', function () {
       it('long date', function () {
         var result = format(date, 'PPP', {locale: locale})
         assert(result === '5 avril 1986')
+      })
+      it('long date', function () {
+        var date = new Date(1986, 3 /* Apr */, 1)
+        var result = format(date, 'PPP', {locale: locale})
+        assert(result === '1er avril 1986')
       })
 
       it('full date', function () {
@@ -439,8 +502,8 @@ describe('fr locale', function () {
     })
 
     it('ordinal time', function () {
-      var dateString = '1ère heure, 2ème minute, 3ème second'
-      var formatString = "ho 'heure', mo 'minute', so 'second'"
+      var dateString = '1ère heure, 2ème minute, 3ème seconde'
+      var formatString = "ho 'heure', mo 'minute', so 'seconde'"
       var result = parse(dateString, formatString, baseDate, {locale: locale})
       assert.deepEqual(result, new Date(1986, 3 /* Apr */, 4, 1, 2, 3))
     })
