@@ -12,6 +12,7 @@ import match from './_lib/match/index.js'
  * @iso-639-2 fra
  * @author Jean Dupouy [@izeau]{@link https://github.com/izeau}
  * @author François B [@fbonzon]{@link https://github.com/fbonzon}
+ * @author Fabrice Pomata [@Lakston]{@link https://github.com/Lakston}
  */
 
 var locale = {
